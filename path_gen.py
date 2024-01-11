@@ -1,4 +1,4 @@
-def construct_surl_jlab(dsn: str, scope: str, filename: str) -> str:
+def construct_surl_eic(dsn: str, scope: str, filename: str) -> str:
     """
     Defines relative SURL for new replicas. This method
     contains DQ2 convention. To be used for non-deterministic sites.

@@ -1,6 +1,6 @@
 import hashlib
 
-def lfn2pfn_jlab(scope, name, rse, rse_attrs, protocol_attrs):
+def lfn2pfn_eic(scope, name, rse, rse_attrs, protocol_attrs):
     """
     Given a LFN, convert it directly to a path using the mapping:
         path -> path

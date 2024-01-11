@@ -16,5 +16,13 @@ The package currently contains the following files :
 
 ## How to use this policy package
 
-*  Make sure the directory containing the `jlab_rucio_policy_package` is in the PYTHONPATH for the Rucio server.
-*  Set `package = jlab_rucio_policy_package` in the policy section of the Rucio configuration file.
+*  Make sure the directory containing the `eic_rucio_policy_package` is in the PYTHONPATH for the Rucio server.
+* add/edit follwoing to rucio.cfg
+```
+[policy]
+package = eic_rucio_policy_package
+extract_scope = eic
+lfn2pfn_algorithm_default = eic
+support = https://github.com/rucio/rucio/issues/
+support_rucio = https://github.com/rucio/rucio/issues/
+```

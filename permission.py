@@ -702,6 +702,7 @@ def perm_add_replicas(issuer, kwargs, *, session: "Optional[Session]" = None):
         or str(kwargs.get('rse', '')).endswith('USERDISK')\
         or str(kwargs.get('rse', '')).endswith('MOCK')\
         or str(kwargs.get('rse', '')).endswith('LOCALGROUPDISK')\
+        or str(kwargs.get('rse', '')).endswith('XRD')\
         or _is_root(issuer)\
         or has_account_attribute(account=issuer, key='admin', session=session)
 
