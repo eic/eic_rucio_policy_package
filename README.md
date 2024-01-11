@@ -26,3 +26,11 @@ lfn2pfn_algorithm_default = eic
 support = https://github.com/rucio/rucio/issues/
 support_rucio = https://github.com/rucio/rucio/issues/
 ```
+* On docker run for rucio-server you need add following:
+
+```
+docker run --name=rucio-https-server \
+       -e RUCIO_HTTPD_ENCODED_SLASHES=True \
+       -e PYTHONPATH=/opt/rucio/  \
+       -v /opt/rucio/jlab_rucio_policy_package/:/opt/rucio/eic_rucio_policy_package \
+```
