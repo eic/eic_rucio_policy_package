@@ -1,4 +1,4 @@
-# EIC bRucio policy package
+# EIC Rucio policy package
 
 This is a prototype of the Rucio policy package for eic
 
