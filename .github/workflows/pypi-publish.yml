@@ -31,8 +31,7 @@ jobs:
           echo "Extracted version: ${VERSION}"
 
           # Update toml file
-          sed "s|%version%|${{ env.VERSION }}|g;" pyproject.toml
-          cat pyproject.toml
+          sed -i "s|%version%|${{ env.VERSION }}|g;" pyproject.toml
 
           # Build the package
           python -m build
