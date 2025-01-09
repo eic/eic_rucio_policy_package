@@ -27,7 +27,8 @@ jobs:
       - name: Extract version from Git tag
         id: extract_version
         run: |
-          VERSION=$(echo ${GITHUB_REF} | sed 's/refs\/tags\///')
+          export GITHUB_REF="refs/tags/v0.0.5"
+          VERSION=$(echo ${GITHUB_REF} | sed 's/refs\/tags\/v//')
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
           echo "Extracted version: ${VERSION}"
 
