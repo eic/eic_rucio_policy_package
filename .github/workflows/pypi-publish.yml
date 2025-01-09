@@ -4,7 +4,6 @@ on:
   push:
     tags:
       - 'v*.*.*'  # Trigger when a tag matching v*.*.* is pushed (e.g., v0.0.4)
-  pull_request:
 
 jobs:
   build:
@@ -27,7 +26,6 @@ jobs:
       - name: Extract version from Git tag
         id: extract_version
         run: |
-          export GITHUB_REF="refs/tags/v0.0.5"
           VERSION=$(echo ${GITHUB_REF} | sed 's/refs\/tags\/v//')
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
           echo "Extracted version: ${VERSION}"
@@ -36,3 +34,14 @@ jobs:
         run: |
           sed "s|%version%|${{ env.VERSION }}|g;" pyproject.toml
           cat pyproject.toml
+
+      - name: Build the package
+        run: |
+          python setup.py sdist bdist_wheel
+
+      - name: Publish to PyPI
+        run: |
+          twine upload dist/*
+        env:
+          TWINE_USERNAME: __token__   # Use this value for authentication
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}  # Use the token from GitHub secrets
