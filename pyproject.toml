@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "eic-rucio-policy-package"
-version = %version%
+version = "%version%"
 authors = [
     { name="EIC", email="panta@jlab.org" },
 ]
