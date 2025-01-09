@@ -16,31 +16,28 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'  # Or your preferred Python version
+          python-version: '3.9'  # Or your preferred Python version          
 
-      - name: Install dependencies
+      - name: Update PyPi version dynamically based on git tag
+        id: update_version
         run: |
+          # Install build and twine dependencies
           python -m pip install --upgrade pip
           pip install build twine
-
-      - name: Extract version from Git tag
-        id: extract_version
-        run: |
+        
+          # Extract version
           VERSION=$(echo ${GITHUB_REF} | sed 's/refs\/tags\/v//')
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
           echo "Extracted version: ${VERSION}"
 
-      - name: Update pyproject.toml version dynamically
-        run: |
+          # Update toml file
           sed "s|%version%|${{ env.VERSION }}|g;" pyproject.toml
           cat pyproject.toml
 
-      - name: Build the package
-        run: |
+          # Build the package
           python -m build
 
-      - name: Publish to PyPI
-        run: |
+          # Publish to PyPi
           twine upload dist/*
         env:
           TWINE_USERNAME: __token__   # Use this value for authentication
