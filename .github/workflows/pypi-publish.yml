@@ -33,5 +33,5 @@ jobs:
 
       - name: Update pyproject.toml version dynamically
         run: |
-          sed -i "s/%version%/${{ env.VERSION }}/g" pyproject.toml
+          sed "s|%version%|${{ env.VERSION }}/g;" pyproject.toml
           cat pyproject.toml
