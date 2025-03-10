@@ -1,8 +1,14 @@
 SUPPORTED_VERSION = ["1.29", "1.30", "1.31", "32", "33", "34", "35"]
 
+from typing import TYPE_CHECKING, Optional
+from rucio.common.exception import RucioException
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
 def get_algorithms():
     return { 'lfn2pfn': { 'eic': lfn2pfn_eic },
-             'surl': { 'eic': construct_surl_eic } }
+             'surl': { 'eic': construct_surl_eic },
+             'extract_scope': { 'eic': extract_scope_eic} }
 
 
 def lfn2pfn_eic(scope, name, rse, rse_attrs, protocol_attrs):
@@ -24,6 +30,7 @@ def lfn2pfn_eic(scope, name, rse, rse_attrs, protocol_attrs):
     del scope
     del rse_attrs
     del protocol_attrs
+
     return '%s' % name
 
 
@@ -40,4 +47,24 @@ def construct_surl_eic(dsn: str, scope: str, filename: str) -> str:
         return '/other/%s' % (filename)
     else:
         return '%s/%s' % (dsn, filename)
+
+def extract_scope_eic(did: str, scopes: Optional['Sequence[str]']) -> 'Sequence[str]':
+        """
+        scope extraction algorithm, based on the EIC scope extraction algorithm.
+        :param did: The DID to extract the scope from.
+        :returns: A tuple containing the extracted scope and the DID.
+        """
+        if did.find(':') > -1:
+            scope, _ , name = did.partition(':')
+            if name.endswith('/'):
+                name = name[:-1]
+            if scope.startswith('user') or scope.startswith('group'):
+                username = scope.split('.')[1]
+                if name.startswith(f"/{username}"):
+                    return scope, name
+                else:
+                    raise RucioException(f"For scope {scope}, name should start with /{username}.")
+            return scope, name
+        else:
+            raise RucioException(f"Invalid DID format: {did}")
 

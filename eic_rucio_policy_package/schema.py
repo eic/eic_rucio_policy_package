@@ -428,3 +428,33 @@ def validate_schema(name, obj):
             validate(obj, SCHEMAS.get(name, {}))
     except ValidationError as error:  # NOQA, pylint: disable=W0612
         raise InvalidObject(f'Problem validating {name}: {error}')
+    
+    if name.lower() in ['did']:
+        validate_eic_did(obj)
+    elif name.lower() in ['dids']:
+        for did in obj:
+            validate_eic_did(did)
+
+def validate_eic_did(obj):
+    """
+    Special checking for DIDs
+    Most of the checking is done with JSON schema, but this check
+    makes sure user LFNs are in the correct /USERNAME namespace
+    makes sure group LFNs are in the correct /GROUPNAME namespace
+    """
+    if not obj:
+        return
+
+    lfn = obj['name']
+    scope = obj['scope']
+
+    verify_scope_lfn_match(lfn, scope, "user")
+    verify_scope_lfn_match(lfn, scope, "group")
+
+
+
+def verify_scope_lfn_match(lfn, scope, scope_type):
+    if scope.startswith(f'{scope_type}.'):
+        _, account = scope.split('.', 1)
+        if not lfn.startswith(f'/{account}/'):
+            raise InvalidObject(f"Problem with LFN {lfn} : Not allowed for {scope_type} {account}")
