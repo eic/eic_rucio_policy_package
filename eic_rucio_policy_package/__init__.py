@@ -60,7 +60,7 @@ def extract_scope_eic(did: str, scopes: Optional['Sequence[str]']) -> 'Sequence[
                 name = name[:-1]
             if scope.startswith('user') or scope.startswith('group'):
                 username = scope.split('.')[1]
-                if name.startswith(f"/{username}")
+                if name.startswith(f"/{username}"):
                     return scope, name
                 else:
                     raise RucioException(f"For scope {scope}, name should start with /{username}.")
