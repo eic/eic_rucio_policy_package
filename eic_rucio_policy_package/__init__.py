@@ -27,10 +27,6 @@ def lfn2pfn_eic(scope, name, rse, rse_attrs, protocol_attrs):
     """
 
     del rse
-    if scope.startswith('user') or scope.startswith('group'):
-        username = scope.split('.')[1]
-        if not name.startswith(f"/{username}")
-            name = "/" + username + name
     del scope
     del rse_attrs
     del protocol_attrs
@@ -59,7 +55,7 @@ def extract_scope_eic(did: str, scopes: Optional['Sequence[str]']) -> 'Sequence[
         :returns: A tuple containing the extracted scope and the DID.
         """
         if did.find(':') > -1:
-            scope,_ ,name = did.partition(':')
+            scope, _ , name = did.partition(':')
             if name.endswith('/'):
                 name = name[:-1]
             if scope.startswith('user') or scope.startswith('group'):
