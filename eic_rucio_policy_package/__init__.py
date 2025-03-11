@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 def get_algorithms():
     return { 'lfn2pfn': { 'eic': lfn2pfn_eic },
              'surl': { 'eic': construct_surl_eic },
-             'extract_scope': { 'eic': extract_scope_eic} }
+             'scope': { 'eic': extract_scope_eic} }
 
 
 def lfn2pfn_eic(scope, name, rse, rse_attrs, protocol_attrs):
