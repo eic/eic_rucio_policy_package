@@ -119,6 +119,7 @@ def has_permission(issuer, action, kwargs, *, session: "Optional[Session]" = Non
             'del_identity': perm_del_identity,
             'remove_did_from_followed': perm_remove_did_from_followed,
             'remove_dids_from_followed': perm_remove_dids_from_followed,
+            'set_tombstone': perm_set_tombstone,
             'export': perm_export}
 
     return perm.get(action, perm_default)(issuer=issuer, kwargs=kwargs, session=session)
@@ -1132,6 +1133,23 @@ def perm_remove_dids_from_followed(issuer, kwargs, *, session: "Optional[Session
     if not kwargs['account'] == issuer:
         return False
     return True
+
+def perm_set_tombstone(issuer, kwargs, *, session: "Optional[Session]" = None):
+    """
+    Checks is an account can set_tombstone to replicas.
+
+    :param issuer: Account identifier which issues the command.
+    :param kwargs: List of arguments for the action.
+    :param session: The DB session to use
+    :returns: True if account is allowed, otherwise False
+    """
+    if (_is_root(issuer) or
+        has_account_attribute(account=issuer, key='admin', session=session) or
+        has_account_attribute(account=issuer, key='set_tombstone', session=session)
+    ):
+        return True
+
+    return False
 
 
 def perm_export(issuer, kwargs, *, session: "Optional[Session]" = None):
