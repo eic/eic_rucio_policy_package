@@ -21,7 +21,7 @@ class eicRSEDeterministicTranslation(RSEDeterministicTranslation):
         """
         Initialize the class object on first module load.
         """
-        cls.register(cls.lfn2pfn_jlab, "eic")
+        cls.register(cls.lfn2pfn_eic, "eic")
 
     @staticmethod
     def lfn2pfn_eic(scope, name, rse, rse_attrs, protocol_attrs):
