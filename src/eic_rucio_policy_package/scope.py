@@ -17,7 +17,7 @@ class eicScopeExtractionAlgorithm(rucio.common.utils.ScopeExtractionAlgorithms):
         """
         Registers the included scope extraction algorithms
         """
-        cls.register('jlab', cls.extract_scope_eic)
+        cls.register('eic', cls.extract_scope_eic)
 
     @staticmethod
     def extract_scope_eic(did: str, scopes: Optional['Sequence[str]']) -> 'Sequence[str]':
