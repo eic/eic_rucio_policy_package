@@ -7,6 +7,6 @@ def get_algorithms():
     return {'lfn2pfn': {'eic': eicRSEDeterministicTranslation.lfn2pfn_eic},
             'scope': {'eic': eicScopeExtractionAlgorithm.extract_scope_eic},
             'non_deterministic_pfn': {
-                'eic_non_deterministic_pfn': eicNonDeterministicPFNAlgorithm.construct_non_deterministic_pfn_eic
+                'eic': eicNonDeterministicPFNAlgorithm.construct_non_deterministic_pfn_eic
                 },
            }
